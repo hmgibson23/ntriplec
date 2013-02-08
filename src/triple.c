@@ -48,6 +48,7 @@ int insert_predicate(Set* s, predicate* pred) {
 		ListElem* newElem = malloc(sizeof(ListElem));
 		newElem->next = NULL;
 		newElem->value = pred->name;
+		s->head = newElem;
 		s->tail = newElem;
 		s->length++;
 		return 1;
