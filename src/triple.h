@@ -15,15 +15,15 @@ typedef struct {
 
 
 typedef struct _ListElem {
-	char* value;
+	const char* value;
 	struct _ListElem* next;
 } ListElem;
 
 /*essentially a linked list but with set style operations enforced.*/
 typedef struct {
 	unsigned short length;
-	struct ListElem* head;
-	struct ListElem* tail;	
+	ListElem* head;
+	ListElem* tail;	
 } Set;
 
 /*functions mapping no

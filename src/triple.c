@@ -17,7 +17,7 @@ Set* create_set() {
 void destroy_set(Set* s) {
 	ListElem* iter = s->head;
 	while(iter->next != NULL) {
-		Set* temp = iter;
+		ListElem* temp = iter;
 		iter = iter->next;
 		free(temp);
 	}
@@ -25,7 +25,7 @@ void destroy_set(Set* s) {
 
 int predicate_exists(Set* s, predicate* pred) {
 	ListElem* iter = s->head;
-	char* name = pred->name;
+	const char* name = pred->name;
 	while(iter->next != NULL) {
 		if(!strcmp(name, iter->value))
 			return 1;
@@ -61,7 +61,7 @@ int remove_predicate(Set* s, predicate* pred) {
 	if(!predicate_exists(s, pred))
 		return -1;
 
-	char* val = pred->name;
+	const char* val = pred->name;
 	ListElem* iter;
 	ListElem* head = s->head;
 	ListElem* tail = s->tail;
