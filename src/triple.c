@@ -1,7 +1,7 @@
 #include <string.h>
 #include <assert.h>
 
-
+#include <stdio.h>
 #include "triple.h"
 
 
@@ -25,15 +25,22 @@ void destroy_set(Set* s) {
 
 int predicate_exists(Set* s, predicate* pred) {
 	if(s->head == NULL) {
+		fprintf(stderr, "Head appears to be null\n");
 		return 0;
 	}
 
 	ListElem* iter = s->head;
 	const char* name = pred->name;
 	while(iter->next != NULL) {
-		if(!strcmp(name, iter->value))
+		fprintf(stderr, "Iter is at: %s\n", iter->value);
+		fprintf(stderr, "Name is: %s\n", name);
+		if(!strcmp(name, iter->value)) {
+			fprintf(stderr, "%s\n", name);
+			fprintf(stderr, "%s\n", iter->value);
 			return 1;
+		}
 		else
+			fprintf(stderr, "%s\n", iter->value);
 			iter = iter->next;
 	}
 	return 0;
@@ -51,13 +58,21 @@ int insert_predicate(Set* s, predicate* pred) {
 		s->head = newElem;
 		s->tail = newElem;
 		s->length++;
+		fprintf(stderr, "Element inserted \n");
+		assert(s->head != NULL);
+		fprintf(stderr, "%s\n", s->head->value);
 		return 1;
 	} else {
 		ListElem* newElem = malloc(sizeof(ListElem));
+		ListElem* temp = s->tail;
+		temp->next = newElem;
 		newElem->next = NULL;
 		newElem->value = pred->name;
-		s->tail = newElem;
+		s->tail = temp;
 		s->length++;
+		fprintf(stderr, "Inserted another element\n");
+		fprintf(stderr, "Tail is now: %s\n", s->tail->value);
+		fprintf(stderr, "Head is still: %s\n", s->head->value);
 		return 1;
 	}
 }
