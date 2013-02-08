@@ -1,18 +1,96 @@
 #include <string.h>
+#include <assert.h>
+
+
 #include "triple.h"
 
 
-int predicate_exists(predicate* pred, existing_predicates* ep) {
-	//checks an array of string to determine if a predicate exists or not
-	char *name = pred->name;
-	unsigned int length = ep->length;
-	unsigned short i = 0;
-	for(i = 0; i < length; ++i) {
-		if(!strcmp(name, ep->existing[i]))
-		{
+Set* create_set() {
+	Set* set = malloc(sizeof(set));
+	set->length = 0;
+	set->head = NULL;
+	set->tail = NULL;
+
+	return set;
+}
+
+void destroy_set(Set* s) {
+	ListElem* iter = s->head;
+	while(iter->next != NULL) {
+		Set* temp = iter;
+		iter = iter->next;
+		free(temp);
+	}
+}
+
+int predicate_exists(Set* s, predicate* pred) {
+	ListElem* iter = s->head;
+	char* name = pred->name;
+	while(iter->next != NULL) {
+		if(!strcmp(name, iter->value))
 			return 1;
-		}
+		else
+			iter = iter->next;
+	}
+	return 0;
+}
+
+int insert_predicate(Set* s, predicate* pred) {
+	if(predicate_exists(s, pred)) {
+		return -1;
 	}
 
-	return 0;
+	if(s->head == NULL) {
+		ListElem* newElem = malloc(sizeof(ListElem));
+		newElem->next = NULL;
+		newElem->value = pred->name;
+		s->tail = newElem;
+		s->length++;
+		return 1;
+	} else {
+		ListElem* newElem = malloc(sizeof(ListElem));
+		newElem->next = NULL;
+		newElem->value = pred->name;
+		s->tail = newElem;
+		s->length++;
+		return 1;
+	}
+}
+
+int remove_predicate(Set* s, predicate* pred) {
+	if(!predicate_exists(s, pred))
+		return -1;
+
+	char* val = pred->name;
+	ListElem* iter;
+	ListElem* head = s->head;
+	ListElem* tail = s->tail;
+	if(!strcmp(head->value, val)) {
+		ListElem* temp = head->next;
+		free(s->head);
+		s->head = temp;
+		assert(s->head != NULL);
+		s->length--;
+		return 1;
+	} else if(!(strcmp(tail->value, val))) {
+		iter = s->head;
+		while(iter->next != s->tail) {
+			iter = iter->next;
+		}
+		free(s->tail);
+		s->tail = iter;
+		s->length--;
+		return 1;
+	} 
+	else {
+		iter = s->head;
+		while(strcmp(iter->value, val)) {
+			iter = iter->next;
+		}
+		ListElem* temp = iter->next;
+		temp->next = iter->next->next;
+		free(iter);
+		s->length--;
+		return 1;
+	}
 }

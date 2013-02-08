@@ -1,11 +1,11 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 typedef struct {
-	char* name; /*the name of the predicate*/
-	char* mapping; /*i.e. 'knows'*/
-	struct node* object /*the object the predicate belongs to*/
+	const char* name; /*the name of the predicate*/
+	struct node* object; /*the object the predicate belongs to*/
 } predicate;
 
 typedef struct {
@@ -14,12 +14,25 @@ typedef struct {
 } node;
 
 
+typedef struct _ListElem {
+	char* value;
+	struct _ListElem* next;
+} ListElem;
+
+/*essentially a linked list but with set style operations enforced.*/
 typedef struct {
-	const char** existing; /*array of existing predicates*/
-	unsigned int length;
-} existing_predicates;
+	unsigned short length;
+	struct ListElem* head;
+	struct ListElem* tail;	
+} Set;
 
-/*functions mapping nodes to predicates etc.*/
+/*functions mapping no
+des to predicates etc.*/
 
-/*check for the existence of a predicate so as to have no dupliate mappings*/
-int predicate_exists(predicate*, existing_predicates*);
+Set* create_set();
+void destroy_set(Set*);
+
+/*Predicate insertion and deltion*/
+int insert_predicate(Set*, predicate*);
+int predicate_exists(Set*, predicate*);
+int remove_predicate(Set*, predicate*);
