@@ -22,6 +22,10 @@ int main() {
 	assert(predicate_exists(s, pred));
 
 	remove_predicate(s, pred);
+	predicate* pred3 = malloc(sizeof(predicate));
+    pred3->name = "poopoo";
+	insert_predicate(s, pred3);
+	insert_predicate(s, pred);
 	assert(predicate_exists(s, pred));
 
 

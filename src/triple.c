@@ -6,7 +6,7 @@
 
 
 Set* create_set() {
-	Set* set = malloc(sizeof(set));
+	Set* set = malloc(sizeof(Set));
 	set->length = 0;
 	set->head = NULL;
 	set->tail = NULL;
@@ -32,8 +32,8 @@ int predicate_exists(Set* s, predicate* pred) {
 	ListElem* iter = s->head;
 	const char* name = pred->name;
 	while(iter->next != NULL) {
-		fprintf(stderr, "Iter is at: %s\n", iter->value);
-		fprintf(stderr, "Name is: %s\n", name);
+		/*fprintf(stderr, "Iter is at: %s\n", iter->value);*/
+		/*fprintf(stderr, "Name is: %s\n", name);*/
 		if(!strcmp(name, iter->value)) {
 			fprintf(stderr, "%s\n", name);
 			fprintf(stderr, "%s\n", iter->value);
@@ -58,21 +58,20 @@ int insert_predicate(Set* s, predicate* pred) {
 		s->head = newElem;
 		s->tail = newElem;
 		s->length++;
-		fprintf(stderr, "Element inserted \n");
+		fprintf(stderr, "Element inserted at head\n");
 		assert(s->head != NULL);
 		fprintf(stderr, "%s\n", s->head->value);
 		return 1;
 	} else {
 		ListElem* newElem = malloc(sizeof(ListElem));
-		ListElem* temp = s->tail;
-		temp->next = newElem;
 		newElem->next = NULL;
 		newElem->value = pred->name;
-		s->tail = temp;
+		s->tail->next = newElem;
+		s->tail = newElem;
 		s->length++;
 		fprintf(stderr, "Inserted another element\n");
-		fprintf(stderr, "Tail is now: %s\n", s->tail->value);
-		fprintf(stderr, "Head is still: %s\n", s->head->value);
+		fprintf(stderr, "Tail after insert now: %s\n", s->tail->value);
+		fprintf(stderr, "Head after insert is: %s\n", s->head->value);
 		return 1;
 	}
 }
@@ -100,6 +99,8 @@ int remove_predicate(Set* s, predicate* pred) {
 		free(s->tail);
 		s->tail = iter;
 		s->length--;
+		fprintf(stderr, "Head after remove is: %s\n", s->head->value);
+		fprintf(stderr, "Tail after remove is: %s\n", s->tail->value);
 		return 1;
 	} 
 	else {
@@ -110,6 +111,9 @@ int remove_predicate(Set* s, predicate* pred) {
 		ListElem* temp = iter->next;
 		temp->next = iter->next->next;
 		free(iter);
+		fprintf(stderr, "Tail after remove is: %s\n", s->tail->value);
+		fprintf(stderr, "Head after remove is: %s\n", s->head->value);
+
 		s->length--;
 		return 1;
 	}
