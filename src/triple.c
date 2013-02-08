@@ -24,6 +24,10 @@ void destroy_set(Set* s) {
 }
 
 int predicate_exists(Set* s, predicate* pred) {
+	if(s->head == NULL) {
+		return 0;
+	}
+
 	ListElem* iter = s->head;
 	const char* name = pred->name;
 	while(iter->next != NULL) {
@@ -36,7 +40,7 @@ int predicate_exists(Set* s, predicate* pred) {
 }
 
 int insert_predicate(Set* s, predicate* pred) {
-	if(predicate_exists(s, pred)) {
+	if(predicate_exists(s, pred) && s->length != 0) {
 		return -1;
 	}
 
