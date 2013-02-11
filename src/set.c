@@ -118,3 +118,14 @@ int remove_predicate(Set* s, predicate pred) {
 		return 1;
 	}
 }
+
+void print_list(ListElem* el) {
+	fprintf(stderr, "Value is %s\n", el->value);
+	if(el->next != NULL) {
+		print_list(el->next);
+	}
+}
+
+void print_set(Set* s) {
+	print_list(s->head);
+}

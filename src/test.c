@@ -11,7 +11,7 @@ int main() {
 	predicate pred1 = malloc(sizeof(predicate));
 	pred1 = "This";
 	//assert(insert_predicate(s, pred));
-	printf("Should have failed");
+	//printf("Should have failed");
 
 	predicate pred2 = malloc(sizeof(predicate));
 	pred2 = "Tasdashis";
@@ -26,7 +26,9 @@ int main() {
     pred3 = "poopoo";
 	insert_predicate(s, pred3);
 	insert_predicate(s, pred);
-
+	print_set(s);
+	assert(predicate_exists(s, pred));
+	
 
 	return 0;
 }

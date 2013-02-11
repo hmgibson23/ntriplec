@@ -27,3 +27,5 @@ void destroy_set(Set*);
 int insert_predicate(Set*, predicate);
 int predicate_exists(Set*, predicate);
 int remove_predicate(Set*, predicate);
+void print_set(Set*);
+void print_list(ListElem*);
