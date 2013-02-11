@@ -1,6 +1,5 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef SET_H
+#define SET_H
 
 typedef char* predicate;
 
@@ -29,3 +28,5 @@ int predicate_exists(Set*, predicate);
 int remove_predicate(Set*, predicate);
 void print_set(Set*);
 void print_list(ListElem*);
+
+#endif

@@ -1,7 +1,9 @@
 #include <string.h>
 #include <assert.h>
-
 #include <stdio.h>
+#include <stdlib.h>
+
+
 #include "set.h"
 
 
@@ -77,9 +79,12 @@ int insert_predicate(Set* s, predicate pred) {
 }
 
 int remove_predicate(Set* s, predicate pred) {
-	if(!predicate_exists(s, pred))
+	if(!predicate_exists(s, pred)) {
+		fprintf(stderr, "Predicate: \"%s\"  not found. Remove will not occur\n", pred);
 		return -1;
+	}
 
+	fprintf(stderr, "Predicate: \"%s\" found. Remove will occur\n", pred);
 	const char* val = pred;
 	ListElem* iter;
 	ListElem* head = s->head;
@@ -105,6 +110,7 @@ int remove_predicate(Set* s, predicate pred) {
 	} 
 	else {
 		iter = s->head;
+		fprintf(stderr, "Etnering while loop\n");
 		while(strcmp(iter->value, val)) {
 			iter = iter->next;
 		}
